@@ -41,7 +41,7 @@ def reqshift(data,fshift=100,sample_rate=4096):
     z = np.fft.irfft(y)
     return z
 
-def plot(fs,template_p,template_c,time,eventname):
+def plot(fs,template_p,template_c,time,eventname,template_offset,strain_L1,strain_H1):
     # -- To calculate the PSD of the data, choose an overlap and a window (common to all detectors)
     #   that minimizes "spectral leakage" https://en.wikipedia.org/wiki/Spectral_leakage
     NFFT = 4*fs
