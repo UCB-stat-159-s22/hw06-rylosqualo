@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import os.path
 import fnmatch
 import json
 import h5py
@@ -69,8 +70,9 @@ def loaddata(filename, ifo=None, tvec=True, readstrain=True):
 
 
 def test_loaddata():
+    homedir = "/home/jovyan/hw06-rylosqualo"
     eventname = 'GW150914'
-    fnjson = "/home/jovyan/hw06-rylosqualo/BBH_events_v3.json"
+    fnjson = os.path.join(homedir, "BBH_events_v3.json")
     try:
         events = json.load(open(fnjson,"r"))
     except IOError:
@@ -94,8 +96,8 @@ def test_loaddata():
     fband = event['fband']              # frequency band for bandpassing signal
     try:
     # read in data from H1 and L1, if available:
-        strain_H1, time_H1, chan_dict_H1 = loaddata(fn_H1, 'H1')
-        strain_L1, time_L1, chan_dict_L1 = loaddata(fn_L1, 'L1')
+        strain_H1, time_H1, chan_dict_H1 = loaddata(os.path.join(homedir,fn_H1))
+        strain_L1, time_L1, chan_dict_L1 = loaddata(os.path.join(homedir,fn_L1))
     except:
         print("Cannot find data files!")
         print("You can download them from https://losc.ligo.org/s/events/"+eventname)
@@ -103,3 +105,4 @@ def test_loaddata():
     quit()
     #test
     assert len(strain_H1) == 131072
+    assert strain_H1.min() == 1126259446.0
