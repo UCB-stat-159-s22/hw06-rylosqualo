@@ -1,0 +1,2129 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nghttp2 - HTTP/2 C Library &#8212; My Jupyter Book</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/togglebutton.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../../../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="/user/ryan.keivanfar//proxy/absolute/8000/ligo/share/doc/nghttp2/README.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">My Jupyter Book</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../../README.html">
+   Fine-tuning reproduciblity of LIGO Black Hole signal tutorial, Part II
+  </a>
+ </li>
+</ul>
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../../_sources/ligo/share/doc/nghttp2/README.rst"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#development-status">
+   Development Status
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#public-test-server">
+   Public Test Server
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#requirements">
+   Requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-nghttp2-from-release-tar-archive">
+   Building nghttp2 from release tar archive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-from-git">
+   Building from git
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-building-on-windows-msvc">
+   Notes for building on Windows (MSVC)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-building-on-windows-mingw-cygwin">
+   Notes for building on Windows (Mingw/Cygwin)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-installation-on-linux-systems">
+   Notes for installation on Linux systems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-the-documentation">
+   Building the documentation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-http-3-enabled-h2load-and-nghttpx">
+   Build HTTP/3 enabled h2load and nghttpx
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unit-tests">
+   Unit tests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integration-tests">
+   Integration tests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#migration-from-v0-7-15-or-earlier">
+   Migration from v0.7.15 or earlier
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alpn-protocol-id-is-now-h2-and-h2c">
+     ALPN protocol ID is now
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       h2
+      </span>
+     </code>
+     and
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       h2c
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-word-client-magic-where-we-use-client-connection-preface">
+     Use word “client magic” where we use “client connection preface”
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#client-magic-is-sent-by-library">
+     Client magic is sent by library
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#remove-http-alternative-services-alt-svc-related-code">
+     Remove HTTP Alternative Services (Alt-Svc) related code
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-nghttp2-error-in-nghttp2-on-invalid-frame-recv-callback">
+     Use nghttp2_error in nghttp2_on_invalid_frame_recv_callback
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#receive-client-magic-by-default">
+     Receive client magic by default
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#client-server-and-proxy-programs">
+   Client, Server and Proxy programs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttp-client">
+     nghttp - client
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttpd-server">
+     nghttpd - server
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttpx-proxy">
+     nghttpx - proxy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-tool">
+   Benchmarking tool
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hpack-tools">
+   HPACK tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflatehd-header-compressor">
+     deflatehd - header compressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inflatehd-header-decompressor">
+     inflatehd - header decompressor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#libnghttp2-asio-high-level-http-2-c-library">
+   libnghttp2_asio: High level HTTP/2 C++ library
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#python-bindings">
+   Python bindings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contribution">
+   Contribution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reporting-vulnerability">
+   Reporting vulnerability
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#release-schedule">
+   Release schedule
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#license">
+   License
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>nghttp2 - HTTP/2 C Library</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#development-status">
+   Development Status
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#public-test-server">
+   Public Test Server
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#requirements">
+   Requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-nghttp2-from-release-tar-archive">
+   Building nghttp2 from release tar archive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-from-git">
+   Building from git
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-building-on-windows-msvc">
+   Notes for building on Windows (MSVC)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-building-on-windows-mingw-cygwin">
+   Notes for building on Windows (Mingw/Cygwin)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes-for-installation-on-linux-systems">
+   Notes for installation on Linux systems
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-the-documentation">
+   Building the documentation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-http-3-enabled-h2load-and-nghttpx">
+   Build HTTP/3 enabled h2load and nghttpx
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unit-tests">
+   Unit tests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integration-tests">
+   Integration tests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#migration-from-v0-7-15-or-earlier">
+   Migration from v0.7.15 or earlier
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alpn-protocol-id-is-now-h2-and-h2c">
+     ALPN protocol ID is now
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       h2
+      </span>
+     </code>
+     and
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       h2c
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-word-client-magic-where-we-use-client-connection-preface">
+     Use word “client magic” where we use “client connection preface”
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#client-magic-is-sent-by-library">
+     Client magic is sent by library
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#remove-http-alternative-services-alt-svc-related-code">
+     Remove HTTP Alternative Services (Alt-Svc) related code
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-nghttp2-error-in-nghttp2-on-invalid-frame-recv-callback">
+     Use nghttp2_error in nghttp2_on_invalid_frame_recv_callback
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#receive-client-magic-by-default">
+     Receive client magic by default
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#client-server-and-proxy-programs">
+   Client, Server and Proxy programs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttp-client">
+     nghttp - client
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttpd-server">
+     nghttpd - server
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nghttpx-proxy">
+     nghttpx - proxy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-tool">
+   Benchmarking tool
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hpack-tools">
+   HPACK tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflatehd-header-compressor">
+     deflatehd - header compressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inflatehd-header-decompressor">
+     inflatehd - header decompressor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#libnghttp2-asio-high-level-http-2-c-library">
+   libnghttp2_asio: High level HTTP/2 C++ library
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#python-bindings">
+   Python bindings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contribution">
+   Contribution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reporting-vulnerability">
+   Reporting vulnerability
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#release-schedule">
+   Release schedule
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#license">
+   License
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="nghttp2-http-2-c-library">
+<h1>nghttp2 - HTTP/2 C Library<a class="headerlink" href="#nghttp2-http-2-c-library" title="Permalink to this headline">¶</a></h1>
+<p>This is an implementation of the Hypertext Transfer Protocol version 2
+in C.</p>
+<p>The framing layer of HTTP/2 is implemented as a reusable C library.
+On top of that, we have implemented an HTTP/2 client, server and
+proxy.  We have also developed load test and benchmarking tools for
+HTTP/2.</p>
+<p>An HPACK encoder and decoder are available as a public API.</p>
+<p>An experimental high level C++ library is also available.</p>
+<p>We have Python bindings of this library, but we do not have full
+code coverage yet.</p>
+<div class="section" id="development-status">
+<h2>Development Status<a class="headerlink" href="#development-status" title="Permalink to this headline">¶</a></h2>
+<p>We have implemented <a class="reference external" href="https://tools.ietf.org/html/rfc7540">RFC 7540</a>
+HTTP/2 and <a class="reference external" href="https://tools.ietf.org/html/rfc7541">RFC 7541</a> HPACK -
+Header Compression for HTTP/2</p>
+<p>The nghttp2 code base was forked from the spdylay
+(<a class="reference external" href="https://github.com/tatsuhiro-t/spdylay">https://github.com/tatsuhiro-t/spdylay</a>) project.</p>
+</div>
+<div class="section" id="public-test-server">
+<h2>Public Test Server<a class="headerlink" href="#public-test-server" title="Permalink to this headline">¶</a></h2>
+<p>The following endpoints are available to try out our nghttp2
+implementation.</p>
+<ul>
+<li><p><a class="reference external" href="https://nghttp2.org/">https://nghttp2.org/</a> (TLS + ALPN/NPN and HTTP/3)</p>
+<p>This endpoint supports <code class="docutils literal notranslate"><span class="pre">h2</span></code>, <code class="docutils literal notranslate"><span class="pre">h2-16</span></code>, <code class="docutils literal notranslate"><span class="pre">h2-14</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">http/1.1</span></code> via ALPN/NPN and requires TLSv1.2 for HTTP/2
+connection.</p>
+<p>It also supports HTTP/3.</p>
+</li>
+<li><p><a class="reference external" href="http://nghttp2.org/">http://nghttp2.org/</a> (HTTP Upgrade and HTTP/2 Direct)</p>
+<p><code class="docutils literal notranslate"><span class="pre">h2c</span></code> and <code class="docutils literal notranslate"><span class="pre">http/1.1</span></code>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The following package is required to build the libnghttp2 library:</p>
+<ul class="simple">
+<li><p>pkg-config &gt;= 0.20</p></li>
+</ul>
+<p>To build and run the unit test programs, the following package is
+required:</p>
+<ul class="simple">
+<li><p>cunit &gt;= 2.1</p></li>
+</ul>
+<p>To build the documentation, you need to install:</p>
+<ul class="simple">
+<li><p>sphinx (<a class="reference external" href="http://sphinx-doc.org/">http://sphinx-doc.org/</a>)</p></li>
+</ul>
+<p>If you need libnghttp2 (C library) only, then the above packages are
+all you need.  Use <code class="docutils literal notranslate"><span class="pre">--enable-lib-only</span></code> to ensure that only
+libnghttp2 is built.  This avoids potential build error related to
+building bundled applications.</p>
+<p>To build and run the application programs (<code class="docutils literal notranslate"><span class="pre">nghttp</span></code>, <code class="docutils literal notranslate"><span class="pre">nghttpd</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> and <code class="docutils literal notranslate"><span class="pre">h2load</span></code>) in the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory, the following packages
+are required:</p>
+<ul class="simple">
+<li><p>OpenSSL &gt;= 1.0.1</p></li>
+<li><p>libev &gt;= 4.11</p></li>
+<li><p>zlib &gt;= 1.2.3</p></li>
+<li><p>libc-ares &gt;= 1.7.5</p></li>
+</ul>
+<p>ALPN support requires OpenSSL &gt;= 1.0.2 (released 22 January 2015).
+LibreSSL &gt;= 2.2.0 can be used instead of OpenSSL, but OpenSSL has more
+features than LibreSSL at the time of this writing.</p>
+<p>To enable <code class="docutils literal notranslate"><span class="pre">-a</span></code> option (getting linked assets from the downloaded
+resource) in <code class="docutils literal notranslate"><span class="pre">nghttp</span></code>, the following package is required:</p>
+<ul class="simple">
+<li><p>libxml2 &gt;= 2.6.26</p></li>
+</ul>
+<p>To enable systemd support in nghttpx, the following package is
+required:</p>
+<ul class="simple">
+<li><p>libsystemd-dev &gt;= 209</p></li>
+</ul>
+<p>The HPACK tools require the following package:</p>
+<ul class="simple">
+<li><p>jansson &gt;= 2.5</p></li>
+</ul>
+<p>To build sources under the examples directory, libevent is required:</p>
+<ul class="simple">
+<li><p>libevent-openssl &gt;= 2.0.8</p></li>
+</ul>
+<p>To mitigate heap fragmentation in long running server programs
+(<code class="docutils literal notranslate"><span class="pre">nghttpd</span></code> and <code class="docutils literal notranslate"><span class="pre">nghttpx</span></code>), jemalloc is recommended:</p>
+<ul>
+<li><p>jemalloc</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Alpine Linux currently does not support malloc replacement
+due to musl limitations. See details in issue <a class="reference external" href="https://github.com/nghttp2/nghttp2/issues/762">#762</a>.</p>
+</div>
+</li>
+</ul>
+<p>libnghttp2_asio C++ library requires the following packages:</p>
+<ul class="simple">
+<li><p>libboost-dev &gt;= 1.54.0</p></li>
+<li><p>libboost-thread-dev &gt;= 1.54.0</p></li>
+</ul>
+<p>The Python bindings require the following packages:</p>
+<ul class="simple">
+<li><p>cython &gt;= 0.19</p></li>
+<li><p>python &gt;= 3.8</p></li>
+<li><p>python-setuptools</p></li>
+</ul>
+<p>If you are using Ubuntu 16.04 LTS (Xenial Xerus) or Debian 8 (jessie)
+and above, run the following to install the required packages:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sudo apt-get install g++ make binutils autoconf automake autotools-dev libtool pkg-config \
+  zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev \
+  libc-ares-dev libjemalloc-dev libsystemd-dev \
+  cython python3-dev python-setuptools
+</pre></div>
+</div>
+<p>To enable mruby support for nghttpx, <a class="reference external" href="https://github.com/mruby/mruby">mruby</a> is required.  We need to build
+mruby with C++ ABI explicitly turned on, and probably need other
+mrgems, mruby is manged by git submodule under third-party/mruby
+directory.  Currently, mruby support for nghttpx is disabled by
+default.  To enable mruby support, use <code class="docutils literal notranslate"><span class="pre">--with-mruby</span></code> configure
+option.  Note that at the time of this writing, libmruby-dev and mruby
+packages in Debian/Ubuntu are not usable for nghttp2, since they do
+not enable C++ ABI.  To build mruby, the following packages are
+required:</p>
+<ul class="simple">
+<li><p>ruby</p></li>
+<li><p>bison</p></li>
+</ul>
+<p>nghttpx supports <a class="reference external" href="https://github.com/h2o/neverbleed">neverbleed</a>,
+privilege separation engine for OpenSSL / LibreSSL.  In short, it
+minimizes the risk of private key leakage when serious bug like
+Heartbleed is exploited.  The neverbleed is disabled by default.  To
+enable it, use <code class="docutils literal notranslate"><span class="pre">--with-neverbleed</span></code> configure option.</p>
+<p>To enable the experimental HTTP/3 support for h2load and nghttpx, the
+following libraries are required:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/quictls/openssl/tree/OpenSSL_1_1_1m+quic">OpenSSL with QUIC support</a>; or
+<a class="reference external" href="https://boringssl.googlesource.com/boringssl/">BoringSSL</a> (commit
+36a41bf0bf2dd3176f8780e09c03585351f29963)</p></li>
+<li><p><a class="reference external" href="https://github.com/ngtcp2/ngtcp2">ngtcp2</a> &gt;= 0.2.0</p></li>
+<li><p><a class="reference external" href="https://github.com/ngtcp2/nghttp3">nghttp3</a> &gt;= 0.2.0</p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--enable-http3</span></code> configure option to enable HTTP/3 feature for
+h2load and nghttpx.</p>
+<p>In order to build optional eBPF program to direct an incoming QUIC UDP
+datagram to a correct socket for nghttpx, the following libraries are
+required:</p>
+<ul class="simple">
+<li><p>libbpf-dev &gt;= 0.7.0</p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--with-libbpf</span></code> configure option to build eBPF program.
+libelf-dev is needed to build libbpf.</p>
+<p>For Ubuntu 20.04, you can build libbpf from <a class="reference external" href="https://github.com/libbpf/libbpf/releases/tag/v0.7.0">the source code</a>.  nghttpx
+requires eBPF program for reloading its configuration and hot swapping
+its executable.</p>
+<p>Compiling libnghttp2 C source code requires a C99 compiler.  gcc 4.8
+is known to be adequate.  In order to compile the C++ source code, gcc
+&gt;= 6.0 or clang &gt;= 6.0 is required.  C++ source code requires C++14
+language features.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To enable mruby support in nghttpx, and use <code class="docutils literal notranslate"><span class="pre">--with-mruby</span></code>
+configure option.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Mac OS X users may need the <code class="docutils literal notranslate"><span class="pre">--disable-threads</span></code> configure option to
+disable multi-threading in nghttpd, nghttpx and h2load to prevent
+them from crashing. A patch is welcome to make multi threading work
+on Mac OS X platform.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To compile the associated applications (nghttp, nghttpd, nghttpx
+and h2load), you must use the <code class="docutils literal notranslate"><span class="pre">--enable-app</span></code> configure option and
+ensure that the specified requirements above are met.  Normally,
+configure script checks required dependencies to build these
+applications, and enable <code class="docutils literal notranslate"><span class="pre">--enable-app</span></code> automatically, so you
+don’t have to use it explicitly.  But if you found that
+applications were not built, then using <code class="docutils literal notranslate"><span class="pre">--enable-app</span></code> may find
+that cause, such as the missing dependency.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In order to detect third party libraries, pkg-config is used
+(however we don’t use pkg-config for some libraries (e.g., libev)).
+By default, pkg-config searches <code class="docutils literal notranslate"><span class="pre">*.pc</span></code> file in the standard
+locations (e.g., /usr/lib/pkgconfig).  If it is necessary to use
+<code class="docutils literal notranslate"><span class="pre">*.pc</span></code> file in the custom location, specify paths to
+<code class="docutils literal notranslate"><span class="pre">PKG_CONFIG_PATH</span></code> environment variable, and pass it to configure
+script, like so:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ./configure PKG_CONFIG_PATH=/path/to/pkgconfig
+</pre></div>
+</div>
+<p>For pkg-config managed libraries, <code class="docutils literal notranslate"><span class="pre">*_CFLAG</span></code> and <code class="docutils literal notranslate"><span class="pre">*_LIBS</span></code>
+environment variables are defined (e.g., <code class="docutils literal notranslate"><span class="pre">OPENSSL_CFLAGS</span></code>,
+<code class="docutils literal notranslate"><span class="pre">OPENSSL_LIBS</span></code>).  Specifying non-empty string to these variables
+completely overrides pkg-config.  In other words, if they are
+specified, pkg-config is not used for detection, and user is
+responsible to specify the correct values to these variables.  For
+complete list of these variables, run <code class="docutils literal notranslate"><span class="pre">./configure</span> <span class="pre">-h</span></code>.</p>
+</div>
+</div>
+<div class="section" id="building-nghttp2-from-release-tar-archive">
+<h2>Building nghttp2 from release tar archive<a class="headerlink" href="#building-nghttp2-from-release-tar-archive" title="Permalink to this headline">¶</a></h2>
+<p>The nghttp2 project regularly releases tar archives which includes
+nghttp2 source code, and generated build files.  They can be
+downloaded from <a class="reference external" href="https://github.com/nghttp2/nghttp2/releases">Releases</a> page.</p>
+<p>Building nghttp2 from git requires autotools development packages.
+Building from tar archives does not require them, and thus it is much
+easier.  The usual build step is as follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tar xf nghttp2-X.Y.Z.tar.bz2
+$ cd nghttp2-X.Y.Z
+$ ./configure
+$ make
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-from-git">
+<h2>Building from git<a class="headerlink" href="#building-from-git" title="Permalink to this headline">¶</a></h2>
+<p>Building from git is easy, but please be sure that at least autoconf 2.68 is
+used:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git submodule update --init
+$ autoreconf -i
+$ automake
+$ autoconf
+$ ./configure
+$ make
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes-for-building-on-windows-msvc">
+<h2>Notes for building on Windows (MSVC)<a class="headerlink" href="#notes-for-building-on-windows-msvc" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to build native Windows nghttp2 dll is use <a class="reference external" href="https://cmake.org/">cmake</a>.  The free version of <a class="reference external" href="http://landinghub.visualstudio.com/visual-cpp-build-tools">Visual C++ Build Tools</a> works
+fine.</p>
+<ol class="arabic simple">
+<li><p>Install cmake for windows</p></li>
+<li><p>Open “Visual C++ … Native Build Tool Command Prompt”, and inside
+nghttp2 directly, run <code class="docutils literal notranslate"><span class="pre">cmake</span></code>.</p></li>
+<li><p>Then run <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span></code> to build library.</p></li>
+<li><p>nghttp2.dll, nghttp2.lib, nghttp2.exp are placed under lib directory.</p></li>
+</ol>
+<p>Note that the above steps most likely produce nghttp2 library only.
+No bundled applications are compiled.</p>
+</div>
+<div class="section" id="notes-for-building-on-windows-mingw-cygwin">
+<h2>Notes for building on Windows (Mingw/Cygwin)<a class="headerlink" href="#notes-for-building-on-windows-mingw-cygwin" title="Permalink to this headline">¶</a></h2>
+<p>Under Mingw environment, you can only compile the library, it’s
+<code class="docutils literal notranslate"><span class="pre">libnghttp2-X.dll</span></code> and <code class="docutils literal notranslate"><span class="pre">libnghttp2.a</span></code>.</p>
+<p>If you want to compile the applications(<code class="docutils literal notranslate"><span class="pre">h2load</span></code>, <code class="docutils literal notranslate"><span class="pre">nghttp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nghttpx</span></code>, <code class="docutils literal notranslate"><span class="pre">nghttpd</span></code>), you need to use the Cygwin environment.</p>
+<p>Under Cygwin environment, to compile the applications you need to
+compile and install the libev first.</p>
+<p>Secondly, you need to undefine the macro <code class="docutils literal notranslate"><span class="pre">__STRICT_ANSI__</span></code>, if you
+not, the functions <code class="docutils literal notranslate"><span class="pre">fdopen</span></code>, <code class="docutils literal notranslate"><span class="pre">fileno</span></code> and <code class="docutils literal notranslate"><span class="pre">strptime</span></code> will not
+available.</p>
+<p>the sample command like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ export CFLAGS=&quot;-U__STRICT_ANSI__ -I$libev_PREFIX/include -L$libev_PREFIX/lib&quot;
+$ export CXXFLAGS=$CFLAGS
+$ ./configure
+$ make
+</pre></div>
+</div>
+<p>If you want to compile the applications under <code class="docutils literal notranslate"><span class="pre">examples/</span></code>, you need
+to remove or rename the <code class="docutils literal notranslate"><span class="pre">event.h</span></code> from libev’s installation, because
+it conflicts with libevent’s installation.</p>
+</div>
+<div class="section" id="notes-for-installation-on-linux-systems">
+<h2>Notes for installation on Linux systems<a class="headerlink" href="#notes-for-installation-on-linux-systems" title="Permalink to this headline">¶</a></h2>
+<p>After installing nghttp2 tool suite with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> one might experience a similar error:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>nghttpx: error while loading shared libraries: libnghttp2.so.14: cannot open shared object file: No such file or directory
+</pre></div>
+</div>
+<p>This means that the tool is unable to locate the <code class="docutils literal notranslate"><span class="pre">libnghttp2.so</span></code> shared library.</p>
+<p>To update the shared library cache run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">ldconfig</span></code>.</p>
+</div>
+<div class="section" id="building-the-documentation">
+<h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Documentation is still incomplete.</p>
+</div>
+<p>To build the documentation, run:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ make html
+</pre></div>
+</div>
+<p>The documents will be generated under <code class="docutils literal notranslate"><span class="pre">doc/manual/html/</span></code>.</p>
+<p>The generated documents will not be installed with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>.</p>
+<p>The online documentation is available at
+<a class="reference external" href="https://nghttp2.org/documentation/">https://nghttp2.org/documentation/</a></p>
+</div>
+<div class="section" id="build-http-3-enabled-h2load-and-nghttpx">
+<h2>Build HTTP/3 enabled h2load and nghttpx<a class="headerlink" href="#build-http-3-enabled-h2load-and-nghttpx" title="Permalink to this headline">¶</a></h2>
+<p>To build h2load and nghttpx with HTTP/3 feature enabled, run the
+configure script with <code class="docutils literal notranslate"><span class="pre">--enable-http3</span></code>.</p>
+<p>For nghttpx to reload configurations and swapping its executable while
+gracefully terminating old worker processes, eBPF is required.  Run
+the configure script with <code class="docutils literal notranslate"><span class="pre">--enable-http3</span> <span class="pre">--with-libbpf</span></code> to build
+eBPF program.  The QUIC keying material must be set with
+<code class="docutils literal notranslate"><span class="pre">--frontend-quic-secret-file</span></code> in order to keep the existing
+connections alive during reload.</p>
+<p>The detailed steps to build HTTP/3 enabled h2load and nghttpx follow.</p>
+<p>Build custom OpenSSL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git clone --depth 1 -b OpenSSL_1_1_1m+quic https://github.com/quictls/openssl
+$ cd openssl
+$ ./config --prefix=$PWD/build --openssldir=/etc/ssl
+$ make -j$(nproc)
+$ make install_sw
+$ cd ..
+</pre></div>
+</div>
+<p>Build nghttp3:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git clone --depth 1 -b v0.2.0 https://github.com/ngtcp2/nghttp3
+$ cd nghttp3
+$ autoreconf -i
+$ ./configure --prefix=$PWD/build --enable-lib-only
+$ make -j$(nproc)
+$ make install
+$ cd ..
+</pre></div>
+</div>
+<p>Build ngtcp2:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git clone --depth 1 -b v0.2.0 https://github.com/ngtcp2/ngtcp2
+$ cd ngtcp2
+$ autoreconf -i
+$ ./configure --prefix=$PWD/build --enable-lib-only \
+      PKG_CONFIG_PATH=&quot;$PWD/../openssl/build/lib/pkgconfig&quot;
+$ make -j$(nproc)
+$ make install
+$ cd ..
+</pre></div>
+</div>
+<p>If your Linux distribution does not have libbpf-dev &gt;= 0.7.0, build
+from source:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git clone --depth 1 -b v0.7.0 https://github.com/libbpf/libbpf
+$ cd libbpf
+$ PREFIX=$PWD/build make -C src install
+$ cd ..
+</pre></div>
+</div>
+<p>Build nghttp2:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/nghttp2/nghttp2
+$ cd nghttp2
+$ git submodule update --init
+$ autoreconf -i
+$ ./configure --with-mruby --with-neverbleed --enable-http3 --with-libbpf \
+      --disable-python-bindings \
+      CC=clang-12 CXX=clang++-12 \
+      PKG_CONFIG_PATH=&quot;$PWD/../openssl/build/lib/pkgconfig:$PWD/../nghttp3/build/lib/pkgconfig:$PWD/../ngtcp2/build/lib/pkgconfig:$PWD/../libbpf/build/lib64/pkgconfig&quot; \
+      LDFLAGS=&quot;$LDFLAGS -Wl,-rpath,$PWD/../openssl/build/lib -Wl,-rpath,$PWD/../libbpf/build/lib64&quot;
+$ make -j$(nproc)
+</pre></div>
+</div>
+<p>The eBPF program <code class="docutils literal notranslate"><span class="pre">reuseport_kern.o</span></code> should be found under bpf
+directory.  Pass <code class="docutils literal notranslate"><span class="pre">--quic-bpf-program-file=bpf/reuseport_kern.o</span></code>
+option to nghttpx to load it.  See also <a class="reference external" href="https://nghttp2.org/documentation/nghttpx-howto.html#http-3">HTTP/3 section in nghttpx -
+HTTP/2 proxy - HOW-TO</a>.</p>
+</div>
+<div class="section" id="unit-tests">
+<h2>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests are done by simply running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">check</span></code>.</p>
+</div>
+<div class="section" id="integration-tests">
+<h2>Integration tests<a class="headerlink" href="#integration-tests" title="Permalink to this headline">¶</a></h2>
+<p>We have the integration tests for the nghttpx proxy server.  The tests are
+written in the <a class="reference external" href="http://golang.org/">Go programming language</a> and uses
+its testing framework.  We depend on the following libraries:</p>
+<ul class="simple">
+<li><p>golang.org/x/net/http2</p></li>
+<li><p>golang.org/x/net/websocket</p></li>
+<li><p><a class="reference external" href="https://github.com/tatsuhiro-t/go-nghttp2">https://github.com/tatsuhiro-t/go-nghttp2</a></p></li>
+</ul>
+<p>Go modules will download these dependencies automatically.</p>
+<p>To run the tests, run the following command under
+<code class="docutils literal notranslate"><span class="pre">integration-tests</span></code> directory:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ make it
+</pre></div>
+</div>
+<p>Inside the tests, we use port 3009 to run the test subject server.</p>
+</div>
+<div class="section" id="migration-from-v0-7-15-or-earlier">
+<h2>Migration from v0.7.15 or earlier<a class="headerlink" href="#migration-from-v0-7-15-or-earlier" title="Permalink to this headline">¶</a></h2>
+<p>nghttp2 v1.0.0 introduced several backward incompatible changes.  In
+this section, we describe these changes and how to migrate to v1.0.0.</p>
+<div class="section" id="alpn-protocol-id-is-now-h2-and-h2c">
+<h3>ALPN protocol ID is now <code class="docutils literal notranslate"><span class="pre">h2</span></code> and <code class="docutils literal notranslate"><span class="pre">h2c</span></code><a class="headerlink" href="#alpn-protocol-id-is-now-h2-and-h2c" title="Permalink to this headline">¶</a></h3>
+<p>Previously we announced <code class="docutils literal notranslate"><span class="pre">h2-14</span></code> and <code class="docutils literal notranslate"><span class="pre">h2c-14</span></code>.  v1.0.0 implements
+final protocol version, and we changed ALPN ID to <code class="docutils literal notranslate"><span class="pre">h2</span></code> and <code class="docutils literal notranslate"><span class="pre">h2c</span></code>.
+The macros <code class="docutils literal notranslate"><span class="pre">NGHTTP2_PROTO_VERSION_ID</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_PROTO_VERSION_ID_LEN</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLEARTEXT_PROTO_VERSION_ID</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLEARTEXT_PROTO_VERSION_ID_LEN</span></code> have been updated to
+reflect this change.</p>
+<p>Basically, existing applications do not have to do anything, just
+recompiling is enough for this change.</p>
+</div>
+<div class="section" id="use-word-client-magic-where-we-use-client-connection-preface">
+<h3>Use word “client magic” where we use “client connection preface”<a class="headerlink" href="#use-word-client-magic-where-we-use-client-connection-preface" title="Permalink to this headline">¶</a></h3>
+<p>We use “client connection preface” to mean first 24 bytes of client
+connection preface.  This is technically not correct, since client
+connection preface is composed of 24 bytes client magic byte string
+followed by SETTINGS frame.  For clarification, we call “client magic”
+for this 24 bytes byte string and updated API.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_CONNECTION_PREFACE</span></code> was replaced with
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_MAGIC</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_CONNECTION_PREFACE_LEN</span></code> was replaced with
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_MAGIC_LEN</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NGHTTP2_BAD_PREFACE</span></code> was renamed as <code class="docutils literal notranslate"><span class="pre">NGHTTP2_BAD_CLIENT_MAGIC</span></code></p></li>
+</ul>
+<p>The already deprecated <code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_CONNECTION_HEADER</span></code> and
+<code class="docutils literal notranslate"><span class="pre">NGHTTP2_CLIENT_CONNECTION_HEADER_LEN</span></code> were removed.</p>
+<p>If application uses these macros, just replace old ones with new ones.
+Since v1.0.0, client magic is sent by library (see next subsection),
+so client application may just remove these macro use.</p>
+</div>
+<div class="section" id="client-magic-is-sent-by-library">
+<h3>Client magic is sent by library<a class="headerlink" href="#client-magic-is-sent-by-library" title="Permalink to this headline">¶</a></h3>
+<p>Previously nghttp2 library did not send client magic, which is first
+24 bytes byte string of client connection preface, and client
+applications have to send it by themselves.  Since v1.0.0, client
+magic is sent by library via first call of <code class="docutils literal notranslate"><span class="pre">nghttp2_session_send()</span></code>
+or <code class="docutils literal notranslate"><span class="pre">nghttp2_session_mem_send()</span></code>.</p>
+<p>The client applications which send client magic must remove the
+relevant code.</p>
+</div>
+<div class="section" id="remove-http-alternative-services-alt-svc-related-code">
+<h3>Remove HTTP Alternative Services (Alt-Svc) related code<a class="headerlink" href="#remove-http-alternative-services-alt-svc-related-code" title="Permalink to this headline">¶</a></h3>
+<p>Alt-Svc specification is not finalized yet.  To make our API stable,
+we have decided to remove all Alt-Svc related API from nghttp2.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NGHTTP2_EXT_ALTSVC</span></code> was removed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nghttp2_ext_altsvc</span></code> was removed.</p></li>
+</ul>
+<p>We have already removed the functionality of Alt-Svc in v0.7 series
+and they have been essentially noop.  The application using these
+macro and struct, remove those lines.</p>
+</div>
+<div class="section" id="use-nghttp2-error-in-nghttp2-on-invalid-frame-recv-callback">
+<h3>Use nghttp2_error in nghttp2_on_invalid_frame_recv_callback<a class="headerlink" href="#use-nghttp2-error-in-nghttp2-on-invalid-frame-recv-callback" title="Permalink to this headline">¶</a></h3>
+<p>Previously <code class="docutils literal notranslate"><span class="pre">nghttp2_on_invalid_frame_recv_cb_called</span></code> took the
+<code class="docutils literal notranslate"><span class="pre">error_code</span></code>, defined in <code class="docutils literal notranslate"><span class="pre">nghttp2_error_code</span></code>, as parameter.  But
+they are not detailed enough to debug.  Therefore, we decided to use
+more detailed <code class="docutils literal notranslate"><span class="pre">nghttp2_error</span></code> values instead.</p>
+<p>The application using this callback should update the callback
+signature.  If it treats <code class="docutils literal notranslate"><span class="pre">error_code</span></code> as HTTP/2 error code, update
+the code so that it is treated as <code class="docutils literal notranslate"><span class="pre">nghttp2_error</span></code>.</p>
+</div>
+<div class="section" id="receive-client-magic-by-default">
+<h3>Receive client magic by default<a class="headerlink" href="#receive-client-magic-by-default" title="Permalink to this headline">¶</a></h3>
+<p>Previously nghttp2 did not process client magic (24 bytes byte
+string).  To make it deal with it, we had to use
+<code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_recv_client_preface()</span></code>.  Since v1.0.0, nghttp2
+processes client magic by default and
+<code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_recv_client_preface()</span></code> was removed.</p>
+<p>Some application may want to disable this behaviour, so we added
+<code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_no_recv_client_magic()</span></code> to achieve this.</p>
+<p>The application using <code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_recv_client_preface()</span></code>
+with nonzero value, just remove it.</p>
+<p>The application using <code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_recv_client_preface()</span></code>
+with zero value or not using it must use
+<code class="docutils literal notranslate"><span class="pre">nghttp2_option_set_no_recv_client_magic()</span></code> with nonzero value.</p>
+</div>
+</div>
+<div class="section" id="client-server-and-proxy-programs">
+<h2>Client, Server and Proxy programs<a class="headerlink" href="#client-server-and-proxy-programs" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> directory contains the HTTP/2 client, server and proxy programs.</p>
+<div class="section" id="nghttp-client">
+<h3>nghttp - client<a class="headerlink" href="#nghttp-client" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">nghttp</span></code> is a HTTP/2 client.  It can connect to the HTTP/2 server
+with prior knowledge, HTTP Upgrade and NPN/ALPN TLS extension.</p>
+<p>It has verbose output mode for framing information.  Here is sample
+output from <code class="docutils literal notranslate"><span class="pre">nghttp</span></code> client:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ nghttp -nv https://nghttp2.org
+[  0.190] Connected
+The negotiated protocol: h2
+[  0.212] recv SETTINGS frame &lt;length=12, flags=0x00, stream_id=0&gt;
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[  0.212] send SETTINGS frame &lt;length=12, flags=0x00, stream_id=0&gt;
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[  0.212] send SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[  0.212] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=3&gt;
+          (dep_stream_id=0, weight=201, exclusive=0)
+[  0.212] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=5&gt;
+          (dep_stream_id=0, weight=101, exclusive=0)
+[  0.212] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=7&gt;
+          (dep_stream_id=0, weight=1, exclusive=0)
+[  0.212] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=9&gt;
+          (dep_stream_id=7, weight=1, exclusive=0)
+[  0.212] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=11&gt;
+          (dep_stream_id=3, weight=1, exclusive=0)
+[  0.212] send HEADERS frame &lt;length=39, flags=0x25, stream_id=13&gt;
+          ; END_STREAM | END_HEADERS | PRIORITY
+          (padlen=0, dep_stream_id=11, weight=16, exclusive=0)
+          ; Open new stream
+          :method: GET
+          :path: /
+          :scheme: https
+          :authority: nghttp2.org
+          accept: */*
+          accept-encoding: gzip, deflate
+          user-agent: nghttp2/1.0.1-DEV
+[  0.221] recv SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[  0.221] recv (stream_id=13) :method: GET
+[  0.221] recv (stream_id=13) :scheme: https
+[  0.221] recv (stream_id=13) :path: /stylesheets/screen.css
+[  0.221] recv (stream_id=13) :authority: nghttp2.org
+[  0.221] recv (stream_id=13) accept-encoding: gzip, deflate
+[  0.222] recv (stream_id=13) user-agent: nghttp2/1.0.1-DEV
+[  0.222] recv PUSH_PROMISE frame &lt;length=50, flags=0x04, stream_id=13&gt;
+          ; END_HEADERS
+          (padlen=0, promised_stream_id=2)
+[  0.222] recv (stream_id=13) :status: 200
+[  0.222] recv (stream_id=13) date: Thu, 21 May 2015 16:38:14 GMT
+[  0.222] recv (stream_id=13) content-type: text/html
+[  0.222] recv (stream_id=13) last-modified: Fri, 15 May 2015 15:38:06 GMT
+[  0.222] recv (stream_id=13) etag: W/&quot;555612de-19f6&quot;
+[  0.222] recv (stream_id=13) link: &lt;/stylesheets/screen.css&gt;; rel=preload; as=stylesheet
+[  0.222] recv (stream_id=13) content-encoding: gzip
+[  0.222] recv (stream_id=13) server: nghttpx nghttp2/1.0.1-DEV
+[  0.222] recv (stream_id=13) via: 1.1 nghttpx
+[  0.222] recv (stream_id=13) strict-transport-security: max-age=31536000
+[  0.222] recv HEADERS frame &lt;length=166, flags=0x04, stream_id=13&gt;
+          ; END_HEADERS
+          (padlen=0)
+          ; First response header
+[  0.222] recv DATA frame &lt;length=2601, flags=0x01, stream_id=13&gt;
+          ; END_STREAM
+[  0.222] recv (stream_id=2) :status: 200
+[  0.222] recv (stream_id=2) date: Thu, 21 May 2015 16:38:14 GMT
+[  0.222] recv (stream_id=2) content-type: text/css
+[  0.222] recv (stream_id=2) last-modified: Fri, 15 May 2015 15:38:06 GMT
+[  0.222] recv (stream_id=2) etag: W/&quot;555612de-9845&quot;
+[  0.222] recv (stream_id=2) content-encoding: gzip
+[  0.222] recv (stream_id=2) server: nghttpx nghttp2/1.0.1-DEV
+[  0.222] recv (stream_id=2) via: 1.1 nghttpx
+[  0.222] recv (stream_id=2) strict-transport-security: max-age=31536000
+[  0.222] recv HEADERS frame &lt;length=32, flags=0x04, stream_id=2&gt;
+          ; END_HEADERS
+          (padlen=0)
+          ; First push response header
+[  0.228] recv DATA frame &lt;length=8715, flags=0x01, stream_id=2&gt;
+          ; END_STREAM
+[  0.228] send GOAWAY frame &lt;length=8, flags=0x00, stream_id=0&gt;
+          (last_stream_id=2, error_code=NO_ERROR(0x00), opaque_data(0)=[])
+</pre></div>
+</div>
+<p>The HTTP Upgrade is performed like so:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ nghttp -nvu http://nghttp2.org
+[  0.011] Connected
+[  0.011] HTTP Upgrade request
+GET / HTTP/1.1
+Host: nghttp2.org
+Connection: Upgrade, HTTP2-Settings
+Upgrade: h2c
+HTTP2-Settings: AAMAAABkAAQAAP__
+Accept: */*
+User-Agent: nghttp2/1.0.1-DEV
+
+
+[  0.018] HTTP Upgrade response
+HTTP/1.1 101 Switching Protocols
+Connection: Upgrade
+Upgrade: h2c
+
+
+[  0.018] HTTP Upgrade success
+[  0.018] recv SETTINGS frame &lt;length=12, flags=0x00, stream_id=0&gt;
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[  0.018] send SETTINGS frame &lt;length=12, flags=0x00, stream_id=0&gt;
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[  0.018] send SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=3&gt;
+          (dep_stream_id=0, weight=201, exclusive=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=5&gt;
+          (dep_stream_id=0, weight=101, exclusive=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=7&gt;
+          (dep_stream_id=0, weight=1, exclusive=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=9&gt;
+          (dep_stream_id=7, weight=1, exclusive=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=11&gt;
+          (dep_stream_id=3, weight=1, exclusive=0)
+[  0.018] send PRIORITY frame &lt;length=5, flags=0x00, stream_id=1&gt;
+          (dep_stream_id=11, weight=16, exclusive=0)
+[  0.019] recv (stream_id=1) :method: GET
+[  0.019] recv (stream_id=1) :scheme: http
+[  0.019] recv (stream_id=1) :path: /stylesheets/screen.css
+[  0.019] recv (stream_id=1) host: nghttp2.org
+[  0.019] recv (stream_id=1) user-agent: nghttp2/1.0.1-DEV
+[  0.019] recv PUSH_PROMISE frame &lt;length=49, flags=0x04, stream_id=1&gt;
+          ; END_HEADERS
+          (padlen=0, promised_stream_id=2)
+[  0.019] recv (stream_id=1) :status: 200
+[  0.019] recv (stream_id=1) date: Thu, 21 May 2015 16:39:16 GMT
+[  0.019] recv (stream_id=1) content-type: text/html
+[  0.019] recv (stream_id=1) content-length: 6646
+[  0.019] recv (stream_id=1) last-modified: Fri, 15 May 2015 15:38:06 GMT
+[  0.019] recv (stream_id=1) etag: &quot;555612de-19f6&quot;
+[  0.019] recv (stream_id=1) link: &lt;/stylesheets/screen.css&gt;; rel=preload; as=stylesheet
+[  0.019] recv (stream_id=1) accept-ranges: bytes
+[  0.019] recv (stream_id=1) server: nghttpx nghttp2/1.0.1-DEV
+[  0.019] recv (stream_id=1) via: 1.1 nghttpx
+[  0.019] recv HEADERS frame &lt;length=157, flags=0x04, stream_id=1&gt;
+          ; END_HEADERS
+          (padlen=0)
+          ; First response header
+[  0.019] recv DATA frame &lt;length=6646, flags=0x01, stream_id=1&gt;
+          ; END_STREAM
+[  0.019] recv (stream_id=2) :status: 200
+[  0.019] recv (stream_id=2) date: Thu, 21 May 2015 16:39:16 GMT
+[  0.019] recv (stream_id=2) content-type: text/css
+[  0.019] recv (stream_id=2) content-length: 38981
+[  0.019] recv (stream_id=2) last-modified: Fri, 15 May 2015 15:38:06 GMT
+[  0.019] recv (stream_id=2) etag: &quot;555612de-9845&quot;
+[  0.019] recv (stream_id=2) accept-ranges: bytes
+[  0.019] recv (stream_id=2) server: nghttpx nghttp2/1.0.1-DEV
+[  0.019] recv (stream_id=2) via: 1.1 nghttpx
+[  0.019] recv HEADERS frame &lt;length=36, flags=0x04, stream_id=2&gt;
+          ; END_HEADERS
+          (padlen=0)
+          ; First push response header
+[  0.026] recv DATA frame &lt;length=16384, flags=0x00, stream_id=2&gt;
+[  0.027] recv DATA frame &lt;length=7952, flags=0x00, stream_id=2&gt;
+[  0.027] send WINDOW_UPDATE frame &lt;length=4, flags=0x00, stream_id=0&gt;
+          (window_size_increment=33343)
+[  0.032] send WINDOW_UPDATE frame &lt;length=4, flags=0x00, stream_id=2&gt;
+          (window_size_increment=33707)
+[  0.032] recv DATA frame &lt;length=14645, flags=0x01, stream_id=2&gt;
+          ; END_STREAM
+[  0.032] recv SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[  0.032] send GOAWAY frame &lt;length=8, flags=0x00, stream_id=0&gt;
+          (last_stream_id=2, error_code=NO_ERROR(0x00), opaque_data(0)=[])
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">-s</span></code> option, <code class="docutils literal notranslate"><span class="pre">nghttp</span></code> prints out some timing information for
+requests, sorted by completion time:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ nghttp -nas https://nghttp2.org/
+***** Statistics *****
+
+Request timing:
+  responseEnd: the  time  when  last  byte of  response  was  received
+               relative to connectEnd
+ requestStart: the time  just before  first byte  of request  was sent
+               relative  to connectEnd.   If  &#39;*&#39; is  shown, this  was
+               pushed by server.
+      process: responseEnd - requestStart
+         code: HTTP status code
+         size: number  of  bytes  received as  response  body  without
+               inflation.
+          URI: request URI
+
+see http://www.w3.org/TR/resource-timing/#processing-model
+
+sorted by &#39;complete&#39;
+
+id  responseEnd requestStart  process code size request path
+ 13    +37.19ms       +280us  36.91ms  200   2K /
+  2    +72.65ms *   +36.38ms  36.26ms  200   8K /stylesheets/screen.css
+ 17    +77.43ms     +38.67ms  38.75ms  200   3K /javascripts/octopress.js
+ 15    +78.12ms     +38.66ms  39.46ms  200   3K /javascripts/modernizr-2.0.js
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">-r</span></code> option, <code class="docutils literal notranslate"><span class="pre">nghttp</span></code> writes more detailed timing data to
+the given file in HAR format.</p>
+</div>
+<div class="section" id="nghttpd-server">
+<h3>nghttpd - server<a class="headerlink" href="#nghttpd-server" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpd</span></code> is a multi-threaded static web server.</p>
+<p>By default, it uses SSL/TLS connection.  Use <code class="docutils literal notranslate"><span class="pre">--no-tls</span></code> option to
+disable it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpd</span></code> only accepts HTTP/2 connections via NPN/ALPN or direct
+HTTP/2 connections.  No HTTP Upgrade is supported.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-p</span></code> option allows users to configure server push.</p>
+<p>Just like <code class="docutils literal notranslate"><span class="pre">nghttp</span></code>, it has a verbose output mode for framing
+information.  Here is sample output from <code class="docutils literal notranslate"><span class="pre">nghttpd</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ nghttpd --no-tls -v 8080
+IPv4: listen 0.0.0.0:8080
+IPv6: listen :::8080
+[id=1] [  1.521] send SETTINGS frame &lt;length=6, flags=0x00, stream_id=0&gt;
+          (niv=1)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+[id=1] [  1.521] recv SETTINGS frame &lt;length=12, flags=0x00, stream_id=0&gt;
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[id=1] [  1.521] recv SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[id=1] [  1.521] recv PRIORITY frame &lt;length=5, flags=0x00, stream_id=3&gt;
+          (dep_stream_id=0, weight=201, exclusive=0)
+[id=1] [  1.521] recv PRIORITY frame &lt;length=5, flags=0x00, stream_id=5&gt;
+          (dep_stream_id=0, weight=101, exclusive=0)
+[id=1] [  1.521] recv PRIORITY frame &lt;length=5, flags=0x00, stream_id=7&gt;
+          (dep_stream_id=0, weight=1, exclusive=0)
+[id=1] [  1.521] recv PRIORITY frame &lt;length=5, flags=0x00, stream_id=9&gt;
+          (dep_stream_id=7, weight=1, exclusive=0)
+[id=1] [  1.521] recv PRIORITY frame &lt;length=5, flags=0x00, stream_id=11&gt;
+          (dep_stream_id=3, weight=1, exclusive=0)
+[id=1] [  1.521] recv (stream_id=13) :method: GET
+[id=1] [  1.521] recv (stream_id=13) :path: /
+[id=1] [  1.521] recv (stream_id=13) :scheme: http
+[id=1] [  1.521] recv (stream_id=13) :authority: localhost:8080
+[id=1] [  1.521] recv (stream_id=13) accept: */*
+[id=1] [  1.521] recv (stream_id=13) accept-encoding: gzip, deflate
+[id=1] [  1.521] recv (stream_id=13) user-agent: nghttp2/1.0.0-DEV
+[id=1] [  1.521] recv HEADERS frame &lt;length=41, flags=0x25, stream_id=13&gt;
+          ; END_STREAM | END_HEADERS | PRIORITY
+          (padlen=0, dep_stream_id=11, weight=16, exclusive=0)
+          ; Open new stream
+[id=1] [  1.521] send SETTINGS frame &lt;length=0, flags=0x01, stream_id=0&gt;
+          ; ACK
+          (niv=0)
+[id=1] [  1.521] send HEADERS frame &lt;length=86, flags=0x04, stream_id=13&gt;
+          ; END_HEADERS
+          (padlen=0)
+          ; First response header
+          :status: 200
+          server: nghttpd nghttp2/1.0.0-DEV
+          content-length: 10
+          cache-control: max-age=3600
+          date: Fri, 15 May 2015 14:49:04 GMT
+          last-modified: Tue, 30 Sep 2014 12:40:52 GMT
+[id=1] [  1.522] send DATA frame &lt;length=10, flags=0x01, stream_id=13&gt;
+          ; END_STREAM
+[id=1] [  1.522] stream_id=13 closed
+[id=1] [  1.522] recv GOAWAY frame &lt;length=8, flags=0x00, stream_id=0&gt;
+          (last_stream_id=0, error_code=NO_ERROR(0x00), opaque_data(0)=[])
+[id=1] [  1.522] closed
+</pre></div>
+</div>
+</div>
+<div class="section" id="nghttpx-proxy">
+<h3>nghttpx - proxy<a class="headerlink" href="#nghttpx-proxy" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> is a multi-threaded reverse proxy for HTTP/3, HTTP/2, and
+HTTP/1.1, and powers <a class="reference external" href="http://nghttp2.org">http://nghttp2.org</a> and supports HTTP/2 server
+push.</p>
+<p>We reworked <code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> command-line interface, and as a result, there
+are several incompatibles from 1.8.0 or earlier.  This is necessary to
+extend its capability, and secure the further feature enhancements in
+the future release.  Please read <a class="reference external" href="https://nghttp2.org/documentation/nghttpx-howto.html#migration-from-nghttpx-v1-8-0-or-earlier">Migration from nghttpx v1.8.0 or
+earlier</a>
+to know how to migrate from earlier releases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> implements <a class="reference external" href="https://istlsfastyet.com/#server-performance">important performance-oriented features</a> in TLS, such as
+session IDs, session tickets (with automatic key rotation), OCSP
+stapling, dynamic record sizing, ALPN/NPN, forward secrecy and HTTP/2.
+<code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> also offers the functionality to share session cache and
+ticket keys among multiple <code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> instances via memcached.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> has 2 operation modes:</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 34%" />
+<col style="width: 23%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode option</p></th>
+<th class="head"><p>Frontend</p></th>
+<th class="head"><p>Backend</p></th>
+<th class="head"><p>Note</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>default mode</p></td>
+<td><p>HTTP/3, HTTP/2, HTTP/1.1</p></td>
+<td><p>HTTP/1.1, HTTP/2</p></td>
+<td><p>Reverse proxy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--http2-proxy</span></code></p></td>
+<td><p>HTTP/3, HTTP/2, HTTP/1.1</p></td>
+<td><p>HTTP/1.1, HTTP/2</p></td>
+<td><p>Forward proxy</p></td>
+</tr>
+</tbody>
+</table>
+<p>The interesting mode at the moment is the default mode.  It works like
+a reverse proxy and listens for HTTP/3, HTTP/2, and HTTP/1.1 and can
+be deployed as a SSL/TLS terminator for existing web server.</p>
+<p>In all modes, the frontend connections are encrypted by SSL/TLS by
+default.  To disable encryption, use the <code class="docutils literal notranslate"><span class="pre">no-tls</span></code> keyword in
+<code class="docutils literal notranslate"><span class="pre">--frontend</span></code> option.  If encryption is disabled, incoming HTTP/1.1
+connections can be upgraded to HTTP/2 through HTTP Upgrade.  On the
+other hard, backend connections are not encrypted by default.  To
+encrypt backend connections, use <code class="docutils literal notranslate"><span class="pre">tls</span></code> keyword in <code class="docutils literal notranslate"><span class="pre">--backend</span></code>
+option.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> supports a configuration file.  See the <code class="docutils literal notranslate"><span class="pre">--conf</span></code> option and
+sample configuration file <code class="docutils literal notranslate"><span class="pre">nghttpx.conf.sample</span></code>.</p>
+<p>In the default mode, <code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> works as reverse proxy to the backend
+server:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Client &lt;-- (HTTP/3, HTTP/2, HTTP/1.1) --&gt; nghttpx &lt;-- (HTTP/1.1, HTTP/2) --&gt; Web Server
+                                        [reverse proxy]
+</pre></div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">--http2-proxy</span></code> option, it works as forward proxy, and it
+is so called secure HTTP/2 proxy:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Client &lt;-- (HTTP/3, HTTP/2, HTTP/1.1) --&gt; nghttpx &lt;-- (HTTP/1.1) --&gt; Proxy
+                                         [secure proxy]          (e.g., Squid, ATS)
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Client</span></code> in the above example needs to be configured to use
+<code class="docutils literal notranslate"><span class="pre">nghttpx</span></code> as secure proxy.</p>
+<p>At the time of this writing, both Chrome and Firefox support secure
+HTTP/2 proxy.  One way to configure Chrome to use a secure proxy is to
+create a proxy.pac script like this:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">FindProxyForURL</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">&quot;HTTPS SERVERADDR:PORT&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">SERVERADDR</span></code> and <code class="docutils literal notranslate"><span class="pre">PORT</span></code> is the hostname/address and port of the
+machine nghttpx is running on.  Please note that Chrome requires a valid
+certificate for secure proxy.</p>
+<p>Then run Chrome with the following arguments:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ google-chrome --proxy-pac-url=file:///path/to/proxy.pac --use-npn
+</pre></div>
+</div>
+<p>The backend HTTP/2 connections can be tunneled through an HTTP proxy.
+The proxy is specified using <code class="docutils literal notranslate"><span class="pre">--backend-http-proxy-uri</span></code>.  The
+following figure illustrates how nghttpx talks to the outside HTTP/2
+proxy through an HTTP proxy:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Client &lt;-- (HTTP/3, HTTP/2, HTTP/1.1) --&gt; nghttpx &lt;-- (HTTP/2) --
+
+        --===================---&gt; HTTP/2 Proxy
+          (HTTP proxy tunnel)     (e.g., nghttpx -s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="benchmarking-tool">
+<h2>Benchmarking tool<a class="headerlink" href="#benchmarking-tool" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">h2load</span></code> program is a benchmarking tool for HTTP/3, HTTP/2, and
+HTTP/1.1.  The UI of <code class="docutils literal notranslate"><span class="pre">h2load</span></code> is heavily inspired by <code class="docutils literal notranslate"><span class="pre">weighttp</span></code>
+(<a class="reference external" href="https://github.com/lighttpd/weighttp">https://github.com/lighttpd/weighttp</a>).  The typical usage is as
+follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ h2load -n100000 -c100 -m100 https://localhost:8443/
+starting benchmark...
+spawning thread #0: 100 concurrent clients, 100000 total requests
+Protocol: TLSv1.2
+Cipher: ECDHE-RSA-AES128-GCM-SHA256
+Server Temp Key: ECDH P-256 256 bits
+progress: 10% done
+progress: 20% done
+progress: 30% done
+progress: 40% done
+progress: 50% done
+progress: 60% done
+progress: 70% done
+progress: 80% done
+progress: 90% done
+progress: 100% done
+
+finished in 771.26ms, 129658 req/s, 4.71MB/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 3812300 bytes total, 1009900 bytes headers, 1000000 bytes data
+                     min         max         mean         sd        +/- sd
+time for request:    25.12ms    124.55ms     51.07ms     15.36ms    84.87%
+time for connect:   208.94ms    254.67ms    241.38ms      7.95ms    63.00%
+time to 1st byte:   209.11ms    254.80ms    241.51ms      7.94ms    63.00%
+</pre></div>
+</div>
+<p>The above example issued total 100,000 requests, using 100 concurrent
+clients (in other words, 100 HTTP/2 sessions), and a maximum of 100 streams
+per client.  With the <code class="docutils literal notranslate"><span class="pre">-t</span></code> option, <code class="docutils literal notranslate"><span class="pre">h2load</span></code> will use multiple native
+threads to avoid saturating a single core on client side.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Don’t use this tool against publicly available servers.</strong> That is
+considered a DOS attack.  Please only use it against your private
+servers.</p>
+</div>
+<p>If the experimental HTTP/3 is enabled, h2load can send requests to
+HTTP/3 server.  To do this, specify <code class="docutils literal notranslate"><span class="pre">h3</span></code> to <code class="docutils literal notranslate"><span class="pre">--npn-list</span></code> option
+like so:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ h2load --npn-list h3 https://127.0.0.1:4433
+</pre></div>
+</div>
+</div>
+<div class="section" id="hpack-tools">
+<h2>HPACK tools<a class="headerlink" href="#hpack-tools" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> directory contains the HPACK tools.  The <code class="docutils literal notranslate"><span class="pre">deflatehd</span></code> program is a
+command-line header compression tool.  The <code class="docutils literal notranslate"><span class="pre">inflatehd</span></code> program is a
+command-line header decompression tool.  Both tools read input from
+stdin and write output to stdout.  Errors are written to stderr.
+They take JSON as input and output.  We  (mostly) use the same JSON data
+format described at <a class="reference external" href="https://github.com/http2jp/hpack-test-case">https://github.com/http2jp/hpack-test-case</a>.</p>
+<div class="section" id="deflatehd-header-compressor">
+<h3>deflatehd - header compressor<a class="headerlink" href="#deflatehd-header-compressor" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">deflatehd</span></code> program reads JSON data or HTTP/1-style header fields from
+stdin and outputs compressed header block in JSON.</p>
+<p>For the JSON input, the root JSON object must include a <code class="docutils literal notranslate"><span class="pre">cases</span></code> key.
+Its value has to include the sequence of input header set.  They share
+the same compression context and are processed in the order they
+appear.  Each item in the sequence is a JSON object and it must
+include a <code class="docutils literal notranslate"><span class="pre">headers</span></code> key.  Its value is an array of JSON objects,
+which includes exactly one name/value pair.</p>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;cases&quot;</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span> <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;POST&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span> <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">-t</span></code> option, the program can accept more familiar HTTP/1 style
+header field blocks.  Each header set is delimited by an empty line:</p>
+<p>Example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>:method: GET
+:scheme: https
+:path: /
+
+:method: POST
+user-agent: nghttp2
+</pre></div>
+</div>
+<p>The output is in JSON object.  It should include a <code class="docutils literal notranslate"><span class="pre">cases</span></code> key and its
+value is an array of JSON objects, which has at least the following keys:</p>
+<dl class="simple">
+<dt>seq</dt><dd><p>The index of header set in the input.</p>
+</dd>
+<dt>input_length</dt><dd><p>The sum of the length of the name/value pairs in the input.</p>
+</dd>
+<dt>output_length</dt><dd><p>The length of the compressed header block.</p>
+</dd>
+<dt>percentage_of_original_size</dt><dd><p><code class="docutils literal notranslate"><span class="pre">output_length</span></code> / <code class="docutils literal notranslate"><span class="pre">input_length</span></code> * 100</p>
+</dd>
+<dt>wire</dt><dd><p>The compressed header block as a hex string.</p>
+</dd>
+<dt>headers</dt><dd><p>The input header set.</p>
+</dd>
+<dt>header_table_size</dt><dd><p>The header table size adjusted before deflating the header set.</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;cases&quot;</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&quot;input_length&quot;</span><span class="p">:</span> <span class="mi">66</span><span class="p">,</span>
+      <span class="nt">&quot;output_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+      <span class="nt">&quot;percentage_of_original_size&quot;</span><span class="p">:</span> <span class="mf">30.303030303030305</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;01881f3468e5891afcbf83868a3d856659c62e3f&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+    <span class="p">}</span>
+    <span class="p">,</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;input_length&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+      <span class="nt">&quot;output_length&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&quot;percentage_of_original_size&quot;</span><span class="p">:</span> <span class="mf">13.513513513513514</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;88448504252dd5918485&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;POST&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/account&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The output can be used as the input for <code class="docutils literal notranslate"><span class="pre">inflatehd</span></code> and
+<code class="docutils literal notranslate"><span class="pre">deflatehd</span></code>.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">-d</span></code> option, the extra <code class="docutils literal notranslate"><span class="pre">header_table</span></code> key is added and its
+associated value includes the state of dynamic header table after the
+corresponding header set was processed.  The value includes at least
+the following keys:</p>
+<dl class="simple">
+<dt>entries</dt><dd><p>The entry in the header table.  If <code class="docutils literal notranslate"><span class="pre">referenced</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>, it
+is in the reference set.  The <code class="docutils literal notranslate"><span class="pre">size</span></code> includes the overhead (32
+bytes).  The <code class="docutils literal notranslate"><span class="pre">index</span></code> corresponds to the index of header table.
+The <code class="docutils literal notranslate"><span class="pre">name</span></code> is the header field name and the <code class="docutils literal notranslate"><span class="pre">value</span></code> is the
+header field value.</p>
+</dd>
+<dt>size</dt><dd><p>The sum of the spaces entries occupied, this includes the
+entry overhead.</p>
+</dd>
+<dt>max_size</dt><dd><p>The maximum header table size.</p>
+</dd>
+<dt>deflate_size</dt><dd><p>The sum of the spaces entries occupied within
+<code class="docutils literal notranslate"><span class="pre">max_deflate_size</span></code>.</p>
+</dd>
+<dt>max_deflate_size</dt><dd><p>The maximum header table size the encoder uses.  This can be smaller
+than <code class="docutils literal notranslate"><span class="pre">max_size</span></code>.  In this case, the encoder only uses up to first
+<code class="docutils literal notranslate"><span class="pre">max_deflate_size</span></code> buffer.  Since the header table size is still
+<code class="docutils literal notranslate"><span class="pre">max_size</span></code>, the encoder has to keep track of entries outside the
+<code class="docutils literal notranslate"><span class="pre">max_deflate_size</span></code> but inside the <code class="docutils literal notranslate"><span class="pre">max_size</span></code> and make sure
+that they are no longer referenced.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;cases&quot;</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&quot;input_length&quot;</span><span class="p">:</span> <span class="mi">66</span><span class="p">,</span>
+      <span class="nt">&quot;output_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+      <span class="nt">&quot;percentage_of_original_size&quot;</span><span class="p">:</span> <span class="mf">30.303030303030305</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;01881f3468e5891afcbf83868a3d856659c62e3f&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+      <span class="nt">&quot;header_table&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user-agent&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">49</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:scheme&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">44</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:path&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">38</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:method&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">42</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:authority&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">53</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">226</span><span class="p">,</span>
+        <span class="nt">&quot;max_size&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+        <span class="nt">&quot;deflate_size&quot;</span><span class="p">:</span> <span class="mi">226</span><span class="p">,</span>
+        <span class="nt">&quot;max_deflate_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">,</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;input_length&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+      <span class="nt">&quot;output_length&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&quot;percentage_of_original_size&quot;</span><span class="p">:</span> <span class="mf">13.513513513513514</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;88448504252dd5918485&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;POST&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/account&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+      <span class="nt">&quot;header_table&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:method&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">43</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user-agent&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">49</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:scheme&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">44</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:path&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">38</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:method&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">42</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;index&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;:authority&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;referenced&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">53</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="mi">269</span><span class="p">,</span>
+        <span class="nt">&quot;max_size&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+        <span class="nt">&quot;deflate_size&quot;</span><span class="p">:</span> <span class="mi">269</span><span class="p">,</span>
+        <span class="nt">&quot;max_deflate_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inflatehd-header-decompressor">
+<h3>inflatehd - header decompressor<a class="headerlink" href="#inflatehd-header-decompressor" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">inflatehd</span></code> program reads JSON data from stdin and outputs decompressed
+name/value pairs in JSON.</p>
+<p>The root JSON object must include the <code class="docutils literal notranslate"><span class="pre">cases</span></code> key.  Its value has to
+include the sequence of compressed header blocks.  They share the same
+compression context and are processed in the order they appear.  Each
+item in the sequence is a JSON object and it must have at least a
+<code class="docutils literal notranslate"><span class="pre">wire</span></code> key.  Its value is a compressed header block as a hex string.</p>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;cases&quot;</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;8285&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;8583&quot;</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The output is a JSON object.  It should include a <code class="docutils literal notranslate"><span class="pre">cases</span></code> key and its
+value is an array of JSON objects, which has at least following keys:</p>
+<dl class="simple">
+<dt>seq</dt><dd><p>The index of the header set in the input.</p>
+</dd>
+<dt>headers</dt><dd><p>A JSON array that includes decompressed name/value pairs.</p>
+</dd>
+<dt>wire</dt><dd><p>The compressed header block as a hex string.</p>
+</dd>
+<dt>header_table_size</dt><dd><p>The header table size adjusted before inflating compressed header
+block.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;cases&quot;</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;01881f3468e5891afcbf83868a3d856659c62e3f&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;GET&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+    <span class="p">}</span>
+    <span class="p">,</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;seq&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;wire&quot;</span><span class="p">:</span> <span class="s2">&quot;88448504252dd5918485&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;headers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:method&quot;</span><span class="p">:</span> <span class="s2">&quot;POST&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:path&quot;</span><span class="p">:</span> <span class="s2">&quot;/account&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;nghttp2&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:scheme&quot;</span><span class="p">:</span> <span class="s2">&quot;https&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;:authority&quot;</span><span class="p">:</span> <span class="s2">&quot;example.org&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;header_table_size&quot;</span><span class="p">:</span> <span class="mi">4096</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The output can be used as the input for <code class="docutils literal notranslate"><span class="pre">deflatehd</span></code> and
+<code class="docutils literal notranslate"><span class="pre">inflatehd</span></code>.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">-d</span></code> option, the extra <code class="docutils literal notranslate"><span class="pre">header_table</span></code> key is added and its
+associated value includes the state of the dynamic header table after the
+corresponding header set was processed.  The format is the same as
+<code class="docutils literal notranslate"><span class="pre">deflatehd</span></code>.</p>
+</div>
+</div>
+<div class="section" id="libnghttp2-asio-high-level-http-2-c-library">
+<h2>libnghttp2_asio: High level HTTP/2 C++ library<a class="headerlink" href="#libnghttp2-asio-high-level-http-2-c-library" title="Permalink to this headline">¶</a></h2>
+<p>libnghttp2_asio is C++ library built on top of libnghttp2 and provides
+high level abstraction API to build HTTP/2 applications.  It depends
+on the Boost::ASIO library and OpenSSL.  Currently libnghttp2_asio
+provides both client and server APIs.</p>
+<p>libnghttp2_asio is not built by default.  Use the <code class="docutils literal notranslate"><span class="pre">--enable-asio-lib</span></code>
+configure flag to build libnghttp2_asio.  The required Boost libraries
+are:</p>
+<ul class="simple">
+<li><p>Boost::Asio</p></li>
+<li><p>Boost::System</p></li>
+<li><p>Boost::Thread</p></li>
+</ul>
+<p>The server API is designed to build an HTTP/2 server very easily to utilize
+C++14 anonymous functions and closures.  The bare minimum example of
+an HTTP/2 server looks like this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nghttp2/asio_http2_server.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">nghttp2</span><span class="o">::</span><span class="nn">asio_http2</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">nghttp2</span><span class="o">::</span><span class="nn">asio_http2</span><span class="o">::</span><span class="nn">server</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">boost</span><span class="o">::</span><span class="n">system</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="n">ec</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">http2</span><span class="w"> </span><span class="n">server</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">&amp;</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">&amp;</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">res</span><span class="p">.</span><span class="n">write_head</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">res</span><span class="p">.</span><span class="n">end</span><span class="p">(</span><span class="s">&quot;hello, world</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">server</span><span class="p">.</span><span class="n">listen_and_serve</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3000&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;error: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ec</span><span class="p">.</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here is sample code to use the client API:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;nghttp2/asio_http2_client.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">ip</span><span class="o">::</span><span class="n">tcp</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">nghttp2</span><span class="o">::</span><span class="nn">asio_http2</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">nghttp2</span><span class="o">::</span><span class="nn">asio_http2</span><span class="o">::</span><span class="nn">client</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">boost</span><span class="o">::</span><span class="n">system</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="n">ec</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">io_service</span><span class="w"> </span><span class="n">io_service</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// connect to localhost:3000</span>
+<span class="w">  </span><span class="n">session</span><span class="w"> </span><span class="n">sess</span><span class="p">(</span><span class="n">io_service</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3000&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">sess</span><span class="p">.</span><span class="n">on_connect</span><span class="p">([</span><span class="o">&amp;</span><span class="n">sess</span><span class="p">](</span><span class="n">tcp</span><span class="o">::</span><span class="n">resolver</span><span class="o">::</span><span class="n">iterator</span><span class="w"> </span><span class="n">endpoint_it</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">boost</span><span class="o">::</span><span class="n">system</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="n">ec</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sess</span><span class="p">.</span><span class="n">submit</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;http://localhost:3000/&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">req</span><span class="o">-&gt;</span><span class="n">on_response</span><span class="p">([](</span><span class="k">const</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">&amp;</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// print status code and response header fields.</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;HTTP/2 &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">status_code</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">header</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">res</span><span class="p">.</span><span class="n">on_data</span><span class="p">([](</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">req</span><span class="o">-&gt;</span><span class="n">on_close</span><span class="p">([</span><span class="o">&amp;</span><span class="n">sess</span><span class="p">](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">error_code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// shutdown session after first request was done.</span>
+<span class="w">      </span><span class="n">sess</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">sess</span><span class="p">.</span><span class="n">on_error</span><span class="p">([](</span><span class="k">const</span><span class="w"> </span><span class="n">boost</span><span class="o">::</span><span class="n">system</span><span class="o">::</span><span class="n">error_code</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;error: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ec</span><span class="p">.</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">io_service</span><span class="p">.</span><span class="n">run</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>For more details, see the documentation of libnghttp2_asio.</p>
+</div>
+<div class="section" id="python-bindings">
+<h2>Python bindings<a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">python</span></code> directory contains nghttp2 Python bindings.  The
+bindings currently provide HPACK compressor and decompressor classes
+and an HTTP/2 server.</p>
+<p>The extension module is called <code class="docutils literal notranslate"><span class="pre">nghttp2</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> will build the bindings and target Python version is
+determined by the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script.  If the detected Python version is not
+what you expect, specify a path to Python executable in a <code class="docutils literal notranslate"><span class="pre">PYTHON</span></code>
+variable as an argument to configure script (e.g., <code class="docutils literal notranslate"><span class="pre">./configure</span>
+<span class="pre">PYTHON=/usr/bin/python3.8</span></code>).</p>
+<p>The following example code illustrates basic usage of the HPACK compressor
+and decompressor in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">nghttp2</span>
+
+<span class="n">deflater</span> <span class="o">=</span> <span class="n">nghttp2</span><span class="o">.</span><span class="n">HDDeflater</span><span class="p">()</span>
+<span class="n">inflater</span> <span class="o">=</span> <span class="n">nghttp2</span><span class="o">.</span><span class="n">HDInflater</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">deflater</span><span class="o">.</span><span class="n">deflate</span><span class="p">([(</span><span class="sa">b</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;bar&#39;</span><span class="p">),</span>
+                         <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;buz&#39;</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">b2a_hex</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="n">hdrs</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hdrs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">nghttp2.HTTP2Server</span></code> class builds on top of the asyncio event
+loop.  On construction, <em>RequestHandlerClass</em> must be given, which
+must be a subclass of <code class="docutils literal notranslate"><span class="pre">nghttp2.BaseRequestHandler</span></code> class.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">BaseRequestHandler</span></code> class is used to handle the HTTP/2 stream.
+By default, it does nothing.  It must be subclassed to handle each
+event callback method.</p>
+<p>The first callback method invoked is <code class="docutils literal notranslate"><span class="pre">on_headers()</span></code>.  It is called
+when HEADERS frame, which includes the request header fields, has arrived.</p>
+<p>If the request has a request body, <code class="docutils literal notranslate"><span class="pre">on_data(data)</span></code> is invoked for each
+chunk of received data.</p>
+<p>Once the entire request is received, <code class="docutils literal notranslate"><span class="pre">on_request_done()</span></code> is invoked.</p>
+<p>When the stream is closed, <code class="docutils literal notranslate"><span class="pre">on_close(error_code)</span></code> is called.</p>
+<p>The application can send a response using <code class="docutils literal notranslate"><span class="pre">send_response()</span></code> method.
+It can be used in <code class="docutils literal notranslate"><span class="pre">on_headers()</span></code>, <code class="docutils literal notranslate"><span class="pre">on_data()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">on_request_done()</span></code>.</p>
+<p>The application can push resources using the <code class="docutils literal notranslate"><span class="pre">push()</span></code> method.  It must be
+used before the <code class="docutils literal notranslate"><span class="pre">send_response()</span></code> call.</p>
+<p>The following instance variables are available:</p>
+<dl class="simple">
+<dt>client_address</dt><dd><p>Contains a tuple of the form (host, port) referring to the
+client’s address.</p>
+</dd>
+<dt>stream_id</dt><dd><p>Stream ID of this stream.</p>
+</dd>
+<dt>scheme</dt><dd><p>Scheme of the request URI.  This is a value of :scheme header
+field.</p>
+</dd>
+<dt>method</dt><dd><p>Method of this stream.  This is a value of :method header field.</p>
+</dd>
+<dt>host</dt><dd><p>This is a value of :authority or host header field.</p>
+</dd>
+<dt>path</dt><dd><p>This is a value of :path header field.</p>
+</dd>
+</dl>
+<p>The following example illustrates the HTTP2Server and
+BaseRequestHandler usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">ssl</span>
+<span class="kn">import</span> <span class="nn">nghttp2</span>
+
+<span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">nghttp2</span><span class="o">.</span><span class="n">BaseRequestHandler</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">on_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;/css/bootstrap.css&#39;</span><span class="p">,</span>
+                  <span class="n">request_headers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;content-length&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">)],</span>
+                  <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                  <span class="n">body</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;/js/bootstrap.js&#39;</span><span class="p">,</span>
+                  <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                  <span class="n">request_headers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;content-length&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">)],</span>
+                  <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                  <span class="n">body</span><span class="o">=</span><span class="s1">&#39;foobarbuzz&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                           <span class="n">headers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)],</span>
+                           <span class="n">body</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;nghttp2-python FTW&#39;</span><span class="p">))</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">PROTOCOL_SSLv23</span><span class="p">)</span>
+<span class="n">ctx</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">OP_ALL</span> <span class="o">|</span> <span class="n">ssl</span><span class="o">.</span><span class="n">OP_NO_SSLv2</span>
+<span class="n">ctx</span><span class="o">.</span><span class="n">load_cert_chain</span><span class="p">(</span><span class="s1">&#39;server.crt&#39;</span><span class="p">,</span> <span class="s1">&#39;server.key&#39;</span><span class="p">)</span>
+
+<span class="c1"># give None to ssl to make the server non-SSL/TLS</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">nghttp2</span><span class="o">.</span><span class="n">HTTP2Server</span><span class="p">((</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">8443</span><span class="p">),</span> <span class="n">Handler</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+<span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="contribution">
+<h2>Contribution<a class="headerlink" href="#contribution" title="Permalink to this headline">¶</a></h2>
+<p>[This text was composed based on 1.2. License section of curl/libcurl
+project.]</p>
+<p>When contributing with code, you agree to put your changes and new
+code under the same license nghttp2 is already using unless stated and
+agreed otherwise.</p>
+<p>When changing existing source code, do not alter the copyright of
+the original file(s).  The copyright will still be owned by the
+original creator(s) or those who have been assigned copyright by the
+original author(s).</p>
+<p>By submitting a patch to the nghttp2 project, you (or your employer, as
+the case may be) agree to assign the copyright of your submission to us.
+.. the above really needs to be reworded to pass legal muster.
+We will credit you for your
+changes as far as possible, to give credit but also to keep a trace
+back to who made what changes.  Please always provide us with your
+full real name when contributing!</p>
+<p>See <a class="reference external" href="https://nghttp2.org/documentation/contribute.html">Contribution Guidelines</a> for more
+details.</p>
+</div>
+<div class="section" id="reporting-vulnerability">
+<h2>Reporting vulnerability<a class="headerlink" href="#reporting-vulnerability" title="Permalink to this headline">¶</a></h2>
+<p>If you find a vulnerability in our software, please send the email to
+“tatsuhiro.t at gmail dot com” about its details instead of submitting
+issues on github issue page.  It is a standard practice not to
+disclose vulnerability information publicly until a fixed version is
+released, or mitigation is worked out.</p>
+<p>In the future, we may setup a dedicated mail address for this purpose.</p>
+</div>
+<div class="section" id="release-schedule">
+<h2>Release schedule<a class="headerlink" href="#release-schedule" title="Permalink to this headline">¶</a></h2>
+<p>In general, we follow <a class="reference external" href="http://semver.org/">Semantic Versioning</a>.  We
+release MINOR version update every month, and usually we ship it
+around 25th day of every month.</p>
+<p>We may release PATCH releases between the regular releases, mainly for
+severe security bug fixes.</p>
+<p>We have no plan to break API compatibility changes involving soname
+bump, so MAJOR version will stay 1 for the foreseeable future.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>The MIT License</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ligo/share/doc/nghttp2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By The Jupyter Book community<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
